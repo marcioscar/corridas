@@ -13,6 +13,7 @@ folium = "*"
 streamlit-folium = "*"
 tqdm = "*"
 streamlit-shadcn-ui = "*"
+pipreqs = "*"
 
 [dev-packages]
 jupyter = "*"

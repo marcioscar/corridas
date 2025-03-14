@@ -13,9 +13,9 @@ import streamlit_shadcn_ui as ui
 
 
 st.set_page_config(layout="wide")
-st.logo(
-    'LOGO.png',size="large"
-)
+# st.logo(
+#     'LOGO.png',size="large"
+# )
 
 
 df = pd.read_csv("data/atvidades_12_03_2025.csv", parse_dates=['start_date_local'])

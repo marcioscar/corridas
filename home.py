@@ -200,9 +200,9 @@ pace_medio_formatted = format_pace(pace_medio)
 
 cols = st.columns(2)
 with cols[0]:
-    ui.metric_card(title="Total de Km corridos", content=total_formatted, description=f"De {datas_selecionadas[0].strftime('%d/%m/%Y')} - {datas_selecionadas[1].strftime('%d/%m/%Y')}", key="card1")
+    ui.metric_card(title="Total de Km corridos", content=total_formatted, description=f"De {datas_selecionadas[0].strftime('%d/%m/%Y')} - {datas_selecionadas[1].strftime('%d/%m/%Y')}", key="card3")
 with cols[1]:
-    ui.metric_card(title="Pace Medio", content=pace_medio_formatted, description="+20.1% from last month", key="card2")
+    ui.metric_card(title="Pace Medio", content=pace_medio_formatted, description=f"De {datas_selecionadas[0].strftime('%d/%m/%Y')} - {datas_selecionadas[1].strftime('%d/%m/%Y')}", key="card1")
 
 
 df_visivel = runs_filtered.drop(columns=['map.polyline', 'pace_minutes' ])

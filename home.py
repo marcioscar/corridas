@@ -18,7 +18,7 @@ st.logo(
 )
 
 
-df = pd.read_csv("data/atvidades_12_03_2025.csv", parse_dates=['start_date_local'])
+df = pd.read_csv("data/dados.csv", parse_dates=['start_date_local'])
 
 #fill Nan with empty
 df['map.summary_polyline'] = df['map.summary_polyline'].fillna('')

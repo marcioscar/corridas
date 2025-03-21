@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b318a9cc162d7b860c915e49af8739f58520906832825cac0940b03efd71b97d"
+            "sha256": "ae0dd08d5ef66e12abb5de6ea5f0a185e0d0d82ddadd5d87959ed41b4a54604d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -259,6 +259,15 @@
             ],
             "markers": "python_version >= '3.6'",
             "version": "==0.4"
+        },
+        "environs": {
+            "hashes": [
+                "sha256:03db7ee2d50ec697b68814cd175a3a05a7c7954804e4e419ca8b570dc5a835cf",
+                "sha256:45bc56f1d53bbc59d8dd69bba97377dd88ec28b8229d81cedbd455b21789445b"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.9'",
+            "version": "==14.1.1"
         },
         "faker": {
             "hashes": [
@@ -708,6 +717,14 @@
             "markers": "python_version >= '3.9'",
             "version": "==3.0.2"
         },
+        "marshmallow": {
+            "hashes": [
+                "sha256:3350409f20a70a7e4e11a27661187b77cdcaeb20abca41c1454fe33636bea09c",
+                "sha256:e6d8affb6cb61d39d26402096dc0aee12d5a26d490a121f118d2e81dc0719dc6"
+            ],
+            "markers": "python_version >= '3.9'",
+            "version": "==3.26.1"
+        },
         "matplotlib": {
             "hashes": [
                 "sha256:01e63101ebb3014e6e9f80d9cf9ee361a8599ddca2c3e166c563628b39305dbb",
@@ -1083,6 +1100,14 @@
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
             "version": "==2.9.0.post0"
+        },
+        "python-dotenv": {
+            "hashes": [
+                "sha256:e324ee90a023d808f1959c46bcbc04446a10ced277783dc6ee09987c37ec10ca",
+                "sha256:f7b63ef50f1b690dddf550d03497b66d609393b40b564ed0d674909a68ebf16a"
+            ],
+            "markers": "python_version >= '3.8'",
+            "version": "==1.0.1"
         },
         "pytz": {
             "hashes": [

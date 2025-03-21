@@ -2,14 +2,35 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 import polyline
+from pathlib import Path
 import folium
 from streamlit_folium import st_folium
-from polyline import decode
 from datetime import date, datetime
-
 import streamlit_shadcn_ui as ui
 
+from src.api_methods import get_methods
+from src.api_methods import authorize
+from src.data_preprocessing import main as data_prep
 
+
+def stravadados():
+    token:str = authorize.get_acces_token()
+    dfs_to_concat = []
+    page_number = 1
+    while True:
+        data:dict = get_methods.access_activity_data(token, params={
+            'per_page': 200,
+            'page': page_number,
+        })
+        page_number += 1
+        cur_df = data_prep.preprocess_data(data)
+        dfs_to_concat.append(cur_df)
+        if len(data) == 0:
+            break
+    
+    
+    df = pd.concat(dfs_to_concat, ignore_index=True)
+    df.to_csv(Path('data', 'dados.csv'), index=False)
 
 
 st.set_page_config(layout="wide", page_title = 'MarcioscarCorridas', page_icon='logo.png')
@@ -108,6 +129,11 @@ distancia = st.sidebar.select_slider(
 
 )
 distancia_valor = next(value for label, value in distancias if label == distancia)
+dados = st.sidebar.button("Pegar dados")
+if dados:
+    with st.spinner("Carregando dados..."):
+        stravadados() 
+        st.success("Dados carregados com sucesso!")
 
 
 

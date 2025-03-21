@@ -15,6 +15,7 @@ tqdm = "*"
 streamlit-shadcn-ui = "*"
 pipreqs = "*"
 environs = "*"
+st-tailwind = "*"
 
 [dev-packages]
 jupyter = "*"

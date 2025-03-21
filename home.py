@@ -7,11 +7,17 @@ import folium
 from streamlit_folium import st_folium
 from datetime import date, datetime
 import streamlit_shadcn_ui as ui
+import st_tailwind as tw
 
 from src.api_methods import get_methods
 from src.api_methods import authorize
 from src.data_preprocessing import main as data_prep
 
+st.set_page_config(layout="wide", page_title = 'MarcioscarCorridas', page_icon='logo.png')
+st.logo(
+    'logo.png',size="large"
+)
+tw.initialize_tailwind()
 
 def stravadados():
     token:str = authorize.get_acces_token()
@@ -33,10 +39,7 @@ def stravadados():
     df.to_csv(Path('data', 'dados.csv'), index=False)
 
 
-st.set_page_config(layout="wide", page_title = 'MarcioscarCorridas', page_icon='logo.png')
-st.logo(
-    'logo.png',size="large"
-)
+
 
 
 df = pd.read_csv("data/dados.csv", parse_dates=['start_date_local'])
@@ -129,12 +132,16 @@ distancia = st.sidebar.select_slider(
 
 )
 distancia_valor = next(value for label, value in distancias if label == distancia)
-dados = st.sidebar.button("Pegar dados")
-if dados:
-    with st.spinner("Carregando dados..."):
-        stravadados() 
-        st.success("Dados carregados com sucesso!")
 
+
+# tw.button("Button", classes="bg-orange-500 text-white")
+
+with st.sidebar:    
+    dados = tw.button( " 📉 Atualizar corridas",classes="bg-orange-600 text-white w-full",)
+    if dados:
+        with st.spinner("Carregando dados..."):
+            stravadados() 
+            st.success("Dados carregados com sucesso!")
 
 
 # Convert selected date to datetime objects for comparison

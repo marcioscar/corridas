@@ -5,3 +5,4 @@ polyline==2.0.2
 streamlit==1.43.2
 streamlit_folium==0.24.0
 streamlit_shadcn_ui==0.1.18
+st-tailwind = "*"

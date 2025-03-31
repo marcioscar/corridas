@@ -15,7 +15,8 @@ from src.data_preprocessing import main as data_prep
 
 st.set_page_config(layout="wide", page_title = 'MarcioscarCorridas', page_icon='logo.png')
 st.logo(
-    'logo.svg',size="large"
+    'logo.svg',size="large",
+    icon_image = 'icon.svg'
 )
 tw.initialize_tailwind()
 

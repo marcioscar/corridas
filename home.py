@@ -13,7 +13,7 @@ from src.api_methods import get_methods
 from src.api_methods import authorize
 from src.data_preprocessing import main as data_prep
 
-st.set_page_config(layout="wide", page_title = 'MarcioscarCorridas', page_icon='logo.png')
+st.set_page_config(layout="wide", page_title = 'MarcioscarCorridas', page_icon='icon.svg')
 st.logo(
     'logo.svg',size="large",
     icon_image = 'icon.svg'

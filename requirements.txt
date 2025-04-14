@@ -7,3 +7,4 @@ streamlit_folium==0.24.0
 streamlit_shadcn_ui==0.1.18
 st_tailwind
 environs
+pymongo

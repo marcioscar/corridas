@@ -7,18 +7,28 @@ import folium
 from streamlit_folium import st_folium
 from datetime import date, datetime
 import streamlit_shadcn_ui as ui
-import st_tailwind as tw
+from db import conexao
 
 from src.api_methods import get_methods
 from src.api_methods import authorize
 from src.data_preprocessing import main as data_prep
+
+
 
 st.set_page_config(layout="wide", page_title = 'MarcioscarCorridas', page_icon='icon.svg')
 st.logo(
     'logo.svg',size="large",
     icon_image = 'icon.svg'
 )
-tw.initialize_tailwind()
+
+if 'db' not in st.session_state:
+    db = conexao() 
+    st.session_state.db = db
+else:
+    db = st.session_state.db
+
+db = db["corridas"]
+colecao_corridas = db["corridas"]
 
 def stravadados():
     token:str = authorize.get_acces_token()
@@ -35,15 +45,47 @@ def stravadados():
         if len(data) == 0:
             break
     
-    
     df = pd.concat(dfs_to_concat, ignore_index=True)
-    df.to_csv(Path('data', 'dados.csv'), index=False)
+    
+    try:
+        # Converter DataFrame para dicionário e inserir no MongoDB
+        records = df.to_dict('records')
+        st.write(f"Total de registros a serem inseridos: {len(records)}")
+        
+        # Limpar dados antigos
+        colecao_corridas.delete_many({})
+        st.write("Dados antigos removidos com sucesso")
+        
+        # Inserir novos dados
+        result = colecao_corridas.insert_many(records)
+        st.write(f"Dados inseridos com sucesso. IDs inseridos: {len(result.inserted_ids)}")
+        
+        # Salvar também em CSV para compatibilidade
+        df.to_csv(Path('data', 'dados.csv'), index=False)
+        st.success("Dados salvos com sucesso no MongoDB e CSV!")
+        
+    except Exception as e:
+        st.error(f"Erro ao salvar dados no MongoDB: {str(e)}")
+        raise e
 
 
-
-
-
-df = pd.read_csv("data/dados.csv", parse_dates=['start_date_local'])
+# Substituir a leitura do CSV por leitura do MongoDB
+try:
+    # Buscar todos os documentos da coleção
+    cursor = colecao_corridas.find({})
+    # Converter para DataFrame
+    df = pd.DataFrame(list(cursor))
+    
+    # Converter a coluna de data se existir
+    if 'start_date_local' in df.columns:
+        df['start_date_local'] = pd.to_datetime(df['start_date_local'])
+    
+    st.toast(f"Total de registros carregados do MongoDB: {len(df)}")
+except Exception as e:
+    st.error(f"Erro ao carregar dados do MongoDB: {str(e)}")
+    # Se houver erro, tenta carregar do CSV como fallback
+    df = pd.read_csv("data/dados.csv", parse_dates=['start_date_local'])
+    st.warning("Usando dados do arquivo CSV como fallback")
 
 #fill Nan with empty
 df['map.summary_polyline'] = df['map.summary_polyline'].fillna('')
@@ -91,9 +133,9 @@ cols = ['start_date_local','name', 'type','distance_km', 'pace_real', 'moving_ti
            'map.polyline', 'Tempo'
        ]
 
-corridas = df[cols]
+df_corridas = df[cols]
 
-runs = corridas.loc[corridas['type'] == 'Run'] 
+runs = df_corridas.loc[df_corridas['type'] == 'Run'] 
 
 # Make 'start_date_local' timezone-naive
 runs['start_date_local'] = runs['start_date_local'].dt.tz_localize(None)
@@ -138,7 +180,7 @@ distancia_valor = next(value for label, value in distancias if label == distanci
 # tw.button("Button", classes="bg-orange-500 text-white")
 
 with st.sidebar:    
-    dados = tw.button( " 📉 Atualizar corridas",classes="bg-orange-600 text-white w-full",)
+    dados = st.button( " 📉 Atualizar corridas")
     if dados:
         with st.spinner("Carregando dados..."):
             stravadados() 
